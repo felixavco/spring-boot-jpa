@@ -27,7 +27,17 @@ public class ClientDao implements IClientDao {
 	@Override
 	@Transactional
 	public void save(Client client) {
-		em.persist(client);
+		if(client.getId() != null && client.getId() > 0) {
+			em.merge(client); //Edit existing client
+		} else {
+			em.persist(client); // Create a new client
+		}
+		
+	}
+
+	@Override
+	public Client fineOne(Long id) {
+		return em.find(Client.class, id);
 	}
 	
 }
