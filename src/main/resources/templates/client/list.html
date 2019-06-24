@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https//www.thymeleaf.org">
+
+<head th:replace="fragments/header::head"></head>
+
+<body>
+    <header th:replace="fragments/header::navbar"></header>
+    <div class="container">
+        <a th:href="@{/client/form}" class="btn btn-primary mb-2">Insert Client</a>
+        <h1 class="display-4 text-center text-secondary mb-3" th:text="${title}"></h1>
+        <table class="table table-striped" th:if="${!clients.isEmpty()}">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client:${clients}">
+                    <td th:text="${client.id}"></td>
+                    <td th:text="${client.firstName}"></td>
+                    <td th:text="${client.lastName}"></td>
+                    <td th:text="${client.email}"></td>
+                    <td th:text="${client.createdAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="text-center text-warning" th:if="${clients.isEmpty()}"> There is no clients registered! </h3>
+
+    </div>
+</body>
+
+</html>
