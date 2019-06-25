@@ -6,7 +6,7 @@
 <body>
     <header th:replace="fragments/header::navbar"></header>
     <div class="container mb-5">
-        <a th:href="@{/client/create}" class="btn btn-primary mb-2">Insert Client</a>
+        <a th:href="@{/client/create}" class="btn btn-primary mb-2">Insert Client&nbsp;<i class="fas fa-user-plus"></i></a>
         <h1 class="display-4 text-center text-secondary mb-3" th:text="${title}"></h1>
         <table class="table table-striped" th:if="${!clients.isEmpty()}">
             <thead class="bg-primary text-white">

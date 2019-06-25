@@ -1,16 +1,9 @@
 package com.xilews.springboot.app.models.dao;
 
-import java.util.List;
-
 import com.xilews.springboot.app.models.entity.Client;
 
-public interface IClientDao {
+import org.springframework.data.repository.CrudRepository;
 
-	public List<Client> findAll();
+public interface IClientDao extends CrudRepository<Client, Long>{
 
-	public void save(Client client);
-
-	public Client findOne(Long id);
-
-	public void deleteOne(Long id);
 }

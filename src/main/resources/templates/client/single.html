@@ -7,9 +7,9 @@
     <header th:replace="fragments/header::navbar"></header>
     <div class="container mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list</a>
-            <a th:href="@{/client/edit/} + ${client.id}" class="btn btn-success mb-2">Edit <span th:text="${client.firstName}"></span></a>
-            <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger mb-2" onclick="return confirm('Are you sure?')">Delete <span th:text="${client.firstName}"></span></a>
+            <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i class="fas fa-users"></i></a>
+            <a th:href="@{/client/edit/} + ${client.id}" class="btn btn-success mb-2">Edit <span th:text="${client.firstName}"></span>&nbsp;<i class="fas fa-user-edit"></i></a>
+            <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger mb-2" onclick="return confirm('Are you sure?')">Delete <span th:text="${client.firstName}"></span>&nbsp;<i class="fas fa-user-minus"></i></a>
         </div>
 
         <div class="row">

@@ -15,8 +15,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.xilews.springboot.app.models.dao.IClientDao;
 import com.xilews.springboot.app.models.entity.Client;
+import com.xilews.springboot.app.models.service.IClientService;
 
 @Controller
 @SessionAttributes("client")
@@ -24,13 +24,13 @@ import com.xilews.springboot.app.models.entity.Client;
 public class ClientController {
 
 	@Autowired
-	private IClientDao clientDao;
+	private IClientService clientService;
 
 	@GetMapping("/list")
 	public String showClients(Model model) {
 
 		model.addAttribute("title", "List of Clients");
-		model.addAttribute("clients", clientDao.findAll());
+		model.addAttribute("clients", clientService.findAll());
 
 		return "client/list";
 	}
@@ -56,7 +56,7 @@ public class ClientController {
 			return "client/form";
 		}
 
-		clientDao.save(client);
+		clientService.save(client);
 		status.setComplete();
 		return "redirect:/clients/list";
 	}
@@ -64,7 +64,7 @@ public class ClientController {
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable Long id, Model model) {
 
-		Client client = clientDao.findOne(id);
+		Client client = clientService.findOne(id);
 
 		if (client == null) {
 			return "redirect:/clients/list";
@@ -82,7 +82,7 @@ public class ClientController {
 		Client client = null;
 		String fullName;
 
-		client = clientDao.findOne(id);
+		client = clientService.findOne(id);
 
 		if (client == null) {
 			return "redirect:/clients/list";
@@ -100,7 +100,7 @@ public class ClientController {
 	public String delete(@PathVariable Long id) {
 
 		if (id > 0) {
-			clientDao.deleteOne(id);
+			clientService.deleteOne(id);
 		}
 
 		return "redirect:/clients/list";
