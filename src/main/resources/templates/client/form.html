@@ -33,7 +33,6 @@
                             <input type="date" th:field="*{createdAt}" class="form-control" th:errorclass="'border border-danger'"/>
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('createdAt')}" th:errors="*{createdAt}"></small>
                         </div>
-                        <input type="hidden" th:field="*{id}"/>
 
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary" th:text="${buttonTitle}"></button>

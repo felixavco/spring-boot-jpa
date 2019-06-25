@@ -36,8 +36,16 @@ public class ClientDao implements IClientDao {
 	}
 
 	@Override
-	public Client fineOne(Long id) {
+	@Transactional(readOnly = true)
+	public Client findOne(Long id) {
 		return em.find(Client.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteOne(Long id) {
+		Client client = findOne(id);
+		em.remove(client);
 	}
 	
 }

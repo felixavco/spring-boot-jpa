@@ -36,7 +36,7 @@
                     </td>
 
                     <td>
-                        <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger">
+                        <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger" onclick="return confirm('Are you sure?')">
                             <i class="fas fa-user-minus"></i>
                         </a>
                     </td>

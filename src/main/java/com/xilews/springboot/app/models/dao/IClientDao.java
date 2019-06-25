@@ -10,5 +10,7 @@ public interface IClientDao {
 
 	public void save(Client client);
 
-	public Client fineOne(Long id);
+	public Client findOne(Long id);
+
+	public void deleteOne(Long id);
 }
