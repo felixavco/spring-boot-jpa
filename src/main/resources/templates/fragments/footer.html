@@ -1,3 +1,9 @@
 <footer class="container mt-5" th:fragment="footer">
     <h6 class="text-center text-secondary">Spring Framework <span th:text="${#calendars.format(#calendars.createNow(), 'yyyy')}"></span></h6>
 </footer>
+
+<div th:fragment="scripts">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</div>
