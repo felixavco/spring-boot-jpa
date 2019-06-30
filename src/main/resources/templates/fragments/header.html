@@ -30,4 +30,8 @@
             </div>
         </div>
     </nav>
+    <div class="w-75 text-center mt-3 mx-auto alert alert-success flash-msg" th:if="${success != null}" th:text="${success}"></div>
+    <div class="w-75 text-center mt-3 mx-auto alert alert-danger flash-msg" th:if="${danger != null}" th:text="${danger}"></div>
+    <div class="w-75 text-center mt-3 mx-auto alert alert-warning flash-msg" th:if="${warning != null}" th:text="${warning}"></div>
+    <div class="w-75 text-center mt-3 mx-auto alert alert-info flash-msg" th:if="${info != null}" th:text="${info}"></div>
 </header>

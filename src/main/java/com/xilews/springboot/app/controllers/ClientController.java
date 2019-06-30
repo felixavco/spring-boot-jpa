@@ -1,6 +1,9 @@
 package com.xilews.springboot.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -17,6 +22,7 @@ import javax.validation.Valid;
 
 import com.xilews.springboot.app.models.entity.Client;
 import com.xilews.springboot.app.models.service.IClientService;
+import com.xilews.springboot.app.util.paginator.PageRender;
 
 @Controller
 @SessionAttributes("client")
@@ -27,10 +33,18 @@ public class ClientController {
 	private IClientService clientService;
 
 	@GetMapping("/list")
-	public String showClients(Model model) {
+	public String showClients(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+
+		//* Creating Pageable Object 
+		Pageable pageRequest = PageRequest.of(page, 3);
+
+		Page<Client> clients = clientService.findAll(pageRequest);
+		
+		PageRender<Client> pageRender = new PageRender<>("/list", clients);
 
 		model.addAttribute("title", "List of Clients");
-		model.addAttribute("clients", clientService.findAll());
+		model.addAttribute("clients", clients);
+		model.addAttribute("page", pageRender);
 
 		return "client/list";
 	}
@@ -48,7 +62,7 @@ public class ClientController {
 	}
 
 	@PostMapping("/form")
-	public String save(@Valid Client client, BindingResult result, Model model, SessionStatus status) {
+	public String save(@Valid Client client, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("title", "Insert a new client");
@@ -56,17 +70,21 @@ public class ClientController {
 			return "client/form";
 		}
 
+		String flashMessage = (client.getId() != null) ? "Client Updated" : "Client successfully saved";
+
 		clientService.save(client);
 		status.setComplete();
+		flash.addFlashAttribute("success", flashMessage);
 		return "redirect:/clients/list";
 	}
 
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable Long id, Model model) {
+	public String edit(@PathVariable Long id, Model model, RedirectAttributes flash) {
 
 		Client client = clientService.findOne(id);
 
 		if (client == null) {
+			flash.addFlashAttribute("danger", "Client id: " + id + " not found");
 			return "redirect:/clients/list";
 		}
 
@@ -77,7 +95,7 @@ public class ClientController {
 	}
 
 	@GetMapping("/profile/{id}")
-	public String singleClient(@PathVariable Long id, Model model) {
+	public String singleClient(@PathVariable Long id, Model model, RedirectAttributes flash) {
 
 		Client client = null;
 		String fullName;
@@ -85,6 +103,7 @@ public class ClientController {
 		client = clientService.findOne(id);
 
 		if (client == null) {
+			flash.addFlashAttribute("danger", "Client id: " + id + " not found");
 			return "redirect:/clients/list";
 		} 
 
@@ -97,12 +116,13 @@ public class ClientController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable Long id, RedirectAttributes flash) {
 
 		if (id > 0) {
 			clientService.deleteOne(id);
 		}
 
+		flash.addFlashAttribute("success", "Client deleted");
 		return "redirect:/clients/list";
 	}
 

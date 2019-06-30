@@ -46,6 +46,8 @@
 
         <h3 class="text-center text-warning" th:if="${clients.isEmpty()}"> There is no clients registered! </h3>
 
+        <nav th:replace="fragments/paginator-nav::paginator"></nav>
+
     </div>
     <footer th:replace="fragments/footer::footer"></footer>
     <div th:replace="fragments/footer::scripts"></div>
