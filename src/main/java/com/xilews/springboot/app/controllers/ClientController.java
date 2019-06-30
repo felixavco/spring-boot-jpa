@@ -40,7 +40,7 @@ public class ClientController {
 
 		Page<Client> clients = clientService.findAll(pageRequest);
 		
-		PageRender<Client> pageRender = new PageRender<>("/list", clients);
+		PageRender<Client> pageRender = new PageRender<>("/clients/list", clients);
 
 		model.addAttribute("title", "List of Clients");
 		model.addAttribute("clients", clients);

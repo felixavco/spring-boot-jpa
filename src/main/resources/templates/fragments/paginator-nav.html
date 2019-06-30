@@ -10,7 +10,7 @@
 
 
         <li class="page-item" th:each="item : ${page.pages}">
-            <span class="page-link" th:if="${item.isCurrent()}" th:text="${item.getNumber()}"></span>
+            <span class="page-link active" th:if="${item.isCurrent()}" th:text="${item.getNumber()}"></span>
             <a class="page-link" th:if="${!item.isCurrent()}"
                 th:href="@{${page.getUrl()}(page=${item.getNumber() - 1})}" th:text="${item.getNumber()}"></a>
         </li>
