@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -62,12 +67,37 @@ public class ClientController {
 	}
 
 	@PostMapping("/form")
-	public String save(@Valid Client client, BindingResult result, Model model, RedirectAttributes flash, SessionStatus status) {
+	public String save(
+		@Valid Client client, 
+		BindingResult result, 
+		Model model, 
+		@RequestParam("photo") MultipartFile photo, 
+		RedirectAttributes flash, 
+		SessionStatus status) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("title", "Insert a new client");
 			model.addAttribute("buttonTitle", "Save Client");
 			return "client/form";
+		}
+		
+		if(!photo.isEmpty()) {
+			Path uploadsDirectory = Paths.get("src//main//resources//static/uploads");
+			String rootPath = uploadsDirectory.toFile().getAbsolutePath();
+
+			try {
+				byte[] bytes = photo.getBytes();
+				Path fullPath = Paths.get(rootPath + "//" + photo.getOriginalFilename());
+				//* Writes the new file in the uploadsDirectory
+				Files.write(fullPath, bytes);
+								
+				flash.addFlashAttribute("info", "file '" + photo.getOriginalFilename() + "' uploaded successfully!");
+
+				client.setPhoto(photo.getOriginalFilename());
+
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		String flashMessage = (client.getId() != null) ? "Client Updated" : "Client successfully saved";

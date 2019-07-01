@@ -14,7 +14,7 @@
                     <div class="card-title">
                         <h2 class="text-center text-secondary display-4" th:text="${title}"></h2>
                     </div>
-                    <form th:action="@{/client/form}" th:object="${client}" method="POST" novalidate>
+                    <form th:action="@{/client/form}" th:object="${client}" method="POST" enctype="multipart/form-data" novalidate>
                         <div class="form-group">
                             <input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name"
                                 th:errorclass="'border border-danger'" />
@@ -28,6 +28,12 @@
                             <input type="email" th:field="*{email}" class="form-control" placeholder="Email" th:errorclass="'border border-danger'"/>
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                         </div>
+                        <div class="custom-file mb-2">
+                            <input type="file" class="form-control-file" name="photo" id="photo"/>
+                            <label class="custom-file-label" for="photo">Upload photo</label>
+                            <small class="invalid-feedback">Example invalid custom file feedback</small>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="createdAt">Date</label>
                             <input type="date" th:field="*{createdAt}" class="form-control" th:errorclass="'border border-danger'"/>
