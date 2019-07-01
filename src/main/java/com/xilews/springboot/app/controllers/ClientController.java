@@ -35,8 +35,8 @@ public class ClientController {
 	@GetMapping("/list")
 	public String showClients(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
 
-		//* Creating Pageable Object 
-		Pageable pageRequest = PageRequest.of(page, 3);
+		//* Creating "Pegeable" Object 
+		Pageable pageRequest = PageRequest.of(page, 5);
 
 		Page<Client> clients = clientService.findAll(pageRequest);
 		
