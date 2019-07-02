@@ -71,7 +71,7 @@ public class ClientController {
 		@Valid Client client, 
 		BindingResult result, 
 		Model model, 
-		@RequestParam("photo") MultipartFile photo, 
+		@RequestParam("file") MultipartFile photo, 
 		RedirectAttributes flash, 
 		SessionStatus status) {
 
@@ -80,6 +80,8 @@ public class ClientController {
 			model.addAttribute("buttonTitle", "Save Client");
 			return "client/form";
 		}
+
+		System.out.println(photo);
 		
 		if(!photo.isEmpty()) {
 			Path uploadsDirectory = Paths.get("src//main//resources//static/uploads");

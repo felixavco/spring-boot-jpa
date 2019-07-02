@@ -28,8 +28,11 @@
                             <input type="email" th:field="*{email}" class="form-control" placeholder="Email" th:errorclass="'border border-danger'"/>
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                         </div>
+
+                        <!-- <input type="file" name="file" /> -->
+
                         <div class="custom-file mb-2">
-                            <input type="file" class="form-control-file" name="photo" id="photo"/>
+                            <input type="file" class="form-control-file" name="file" id="photo"/>
                             <label class="custom-file-label" for="photo">Upload photo</label>
                             <small class="invalid-feedback">Example invalid custom file feedback</small>
                         </div>

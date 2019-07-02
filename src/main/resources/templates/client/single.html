@@ -19,23 +19,32 @@
                         <h2 class="text-center text-secondary display-1" th:text="${title}"></h2>
                     </div>
 
-                    <ul class="list-group">
-                        <li class="list-group-item font-weight-bold">
-                            ID: <span class="font-weight-normal" th:text="${client.id}"></span>
-                        </li>
-                        <li class="list-group-item font-weight-bold">
-                            First Name: <span class="font-weight-normal" th:text="${client.firstName}"></span>
-                        </li>
-                        <li class="list-group-item font-weight-bold">
-                            Last Name: <span class="font-weight-normal" th:text="${client.lastName}"></span>
-                        </li>
-                        <li class="list-group-item font-weight-bold">
-                            email: <span class="font-weight-normal" th:text="${client.email}"></span>
-                        </li>
-                        <li class="list-group-item font-weight-bold">
-                            Creatin date: <span class="font-weight-normal" th:text="${client.createdAt}"></span>
-                        </li>
-                    </ul>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4 text-center mb-2">
+                            <img th:src="${client.photo}" th:alt="${client.firstName}" class="img-thumbnail rounded">
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-8 mb-2">
+                            <ul class="list-group">
+                                <li class="list-group-item font-weight-bold">
+                                    ID: <span class="font-weight-normal" th:text="${client.id}"></span>
+                                </li>
+                                <li class="list-group-item font-weight-bold">
+                                    First Name: <span class="font-weight-normal" th:text="${client.firstName}"></span>
+                                </li>
+                                <li class="list-group-item font-weight-bold">
+                                    Last Name: <span class="font-weight-normal" th:text="${client.lastName}"></span>
+                                </li>
+                                <li class="list-group-item font-weight-bold">
+                                    email: <span class="font-weight-normal" th:text="${client.email}"></span>
+                                </li>
+                                <li class="list-group-item font-weight-bold">
+                                    Creatin date: <span class="font-weight-normal" th:text="${client.createdAt}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+        
 
                 </div>
             </div>
