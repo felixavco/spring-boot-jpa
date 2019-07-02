@@ -20,10 +20,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4 text-center mb-2">
-                            <img th:src="${client.photo}" th:alt="${client.firstName}" class="img-thumbnail rounded">
+                        <div th:if="${#strings.length(client.photo)}" class="col-12 col-md-6 col-lg-4 text-center mb-2 mx-auto">
+                            <img th:src="@{'/uploads/' + ${client.photo}}" th:alt="${client.firstName}" class="img-thumbnail rounded">
                         </div>
-                        <div class="col-12 col-md-6 col-lg-8 mb-2">
+                        <div class="col-12 col-md-6 col-lg-8 mb-2 mx-auto">
                             <ul class="list-group">
                                 <li class="list-group-item font-weight-bold">
                                     ID: <span class="font-weight-normal" th:text="${client.id}"></span>

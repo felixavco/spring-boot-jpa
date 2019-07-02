@@ -1,5 +1,3 @@
-/* populate tables */
-
 -- CREATE DATABASE spring_boot;
 
 -- USE spring_boot;
@@ -14,6 +12,13 @@
 --     PRIMARY KEY (id)
 -- );
 
--- INSERT INTO clients (id, first_name, last_name, email, created_at, photo) VALUES(1, 'Felix', 'Avelar', 'felix@xilews.com', '2019-06-24', "https://britz.mcmaster.ca/images/nouserimage.gif/image");
--- INSERT INTO clients (id, first_name, last_name, email, created_at, photo) VALUES(2, 'Camila', 'Avelar', 'camila@xilews.com', '2019-06-24', "https://britz.mcmaster.ca/images/nouserimage.gif/image");
--- INSERT INTO clients (id, first_name, last_name, email, created_at, photo) VALUES (3, 'Brenda', 'Marroquin', 'brenda@xilews.com', '2019-06-24', "https://britz.mcmaster.ca/images/nouserimage.gif/image");
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES('Felix', 'Avelar', 'felix@xilews.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES('Camila', 'Avelar', 'camila@xilews.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Brenda', 'Marroquin', 'brenda@xilews.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Barry', 'Gibb', 'barry@beegees.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Bruno', 'Marz', 'bmarz@gmail.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Karla', 'Rodriguez', 'karla@gmail.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Emilia', 'Rodriguez', 'emilia@gmail.com', '');
+-- INSERT INTO clients (first_name, last_name, email, photo) VALUES ('Mariana', 'Rodriguez', 'mariana@gmail.com', '');
+
+
