@@ -82,12 +82,12 @@ public class ClientController {
 		}
 		
 		if(!photo.isEmpty()) {
-			if(!photo.getContentType().equals("image/jpeg") || !photo.getContentType().equals("image/jpg") || !photo.getContentType().equals("image/png")) {
-				flash.addFlashAttribute("info", "Invalid file type");
-				model.addAttribute("title", "Insert a new client");
-				model.addAttribute("buttonTitle", "Save Client");
-				return "client/form";
-			}
+			// if(!photo.getContentType().equals("image/jpeg") || !photo.getContentType().equals("image/jpg") || !photo.getContentType().equals("image/png")) {
+			// 	flash.addFlashAttribute("info", "Invalid file type");
+			// 	model.addAttribute("title", "Insert a new client");
+			// 	model.addAttribute("buttonTitle", "Save Client");
+			// 	return "client/form";
+			// }
 			Path uploadsDirectory = Paths.get("src//main//resources//static/uploads");
 			String rootPath = uploadsDirectory.toFile().getAbsolutePath();
 
