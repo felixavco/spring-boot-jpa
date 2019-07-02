@@ -71,7 +71,7 @@ public class ClientController {
 		@Valid Client client, 
 		BindingResult result, 
 		Model model, 
-		@RequestParam("file") MultipartFile photo, 
+		@RequestParam("userPhoto") MultipartFile photo, 
 		RedirectAttributes flash, 
 		SessionStatus status) {
 
@@ -80,10 +80,14 @@ public class ClientController {
 			model.addAttribute("buttonTitle", "Save Client");
 			return "client/form";
 		}
-
-		System.out.println(photo);
 		
 		if(!photo.isEmpty()) {
+			if(!photo.getContentType().equals("image/jpeg") || !photo.getContentType().equals("image/jpg") || !photo.getContentType().equals("image/png")) {
+				flash.addFlashAttribute("info", "Invalid file type");
+				model.addAttribute("title", "Insert a new client");
+				model.addAttribute("buttonTitle", "Save Client");
+				return "client/form";
+			}
 			Path uploadsDirectory = Paths.get("src//main//resources//static/uploads");
 			String rootPath = uploadsDirectory.toFile().getAbsolutePath();
 
