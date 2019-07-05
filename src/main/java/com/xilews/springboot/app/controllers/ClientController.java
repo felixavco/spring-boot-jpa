@@ -76,26 +76,26 @@ public class ClientController {
 		return "client/form";
 	}
 
-	@GetMapping(value="/uploads/{filename:.+}")
-	public ResponseEntity<Resource> loadPhoto(@PathVariable String filename){
-		Path pathPhoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
-		log.info("pathPhoto: " + pathPhoto);
+	// @GetMapping(value="/uploads/{filename:.+}")
+	// public ResponseEntity<Resource> loadPhoto(@PathVariable String filename){
+	// 	Path pathPhoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
+	// 	log.info("pathPhoto: " + pathPhoto);
 		
-		Resource resource =  null;
+	// 	Resource resource =  null;
 		
-		try {
-			resource = new UrlResource(pathPhoto.toUri());
-			if(resource.exists() || !resource.isReadable()) {
-				throw new RuntimeException("Error: unable to load photo " + pathPhoto.toString());
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+	// 	try {
+	// 		resource = new UrlResource(pathPhoto.toUri());
+	// 		if(!resource.exists() || !resource.isReadable()) {
+	// 			throw new RuntimeException("Error: unable to load photo " + pathPhoto.toString());
+	// 		}
+	// 	} catch (MalformedURLException e) {
+	// 		e.printStackTrace();
+	// 	}
 		
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\""+ resource.getFilename() +"\"" )
-				.body(resource);
-	}
+	// 	return ResponseEntity.ok()
+	// 			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\""+ resource.getFilename() +"\"" )
+	// 			.body(resource);
+	// }
 	
 	@PostMapping("/form")
 	public String save(
