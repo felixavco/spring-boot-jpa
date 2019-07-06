@@ -1,15 +1,9 @@
 package com.xilews.springboot.app.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,19 +16,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.validation.Valid;
-
 import com.xilews.springboot.app.models.entity.Client;
 import com.xilews.springboot.app.models.service.IClientService;
+import com.xilews.springboot.app.models.service.IUploadFileService;
 import com.xilews.springboot.app.util.paginator.PageRender;
 
 @Controller
@@ -44,17 +31,17 @@ public class ClientController {
 
 	@Autowired
 	private IClientService clientService;
-	
-	private final Logger log = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private IUploadFileService uploadService;
 
 	@GetMapping("/list")
 	public String showClients(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
 
-		//* Creating "Pegeable" Object 
 		Pageable pageRequest = PageRequest.of(page, 5);
 
 		Page<Client> clients = clientService.findAll(pageRequest);
-		
+
 		PageRender<Client> pageRender = new PageRender<>("/clients/list", clients);
 
 		model.addAttribute("title", "List of Clients");
@@ -76,67 +63,38 @@ public class ClientController {
 		return "client/form";
 	}
 
-	// @GetMapping(value="/uploads/{filename:.+}")
-	// public ResponseEntity<Resource> loadPhoto(@PathVariable String filename){
-	// 	Path pathPhoto = Paths.get("uploads").resolve(filename).toAbsolutePath();
-	// 	log.info("pathPhoto: " + pathPhoto);
-		
-	// 	Resource resource =  null;
-		
-	// 	try {
-	// 		resource = new UrlResource(pathPhoto.toUri());
-	// 		if(!resource.exists() || !resource.isReadable()) {
-	// 			throw new RuntimeException("Error: unable to load photo " + pathPhoto.toString());
-	// 		}
-	// 	} catch (MalformedURLException e) {
-	// 		e.printStackTrace();
-	// 	}
-		
-	// 	return ResponseEntity.ok()
-	// 			.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\""+ resource.getFilename() +"\"" )
-	// 			.body(resource);
-	// }
-	
 	@PostMapping("/form")
-	public String save(
-		@Valid Client client, 
-		BindingResult result, 
-		Model model, 
-		@RequestParam("userPhoto") MultipartFile photo, 
-		RedirectAttributes flash, 
-		SessionStatus status) {
+	public String save(@Valid Client client, BindingResult result, Model model,
+			@RequestParam("userPhoto") MultipartFile photo, RedirectAttributes flash, SessionStatus status) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("title", "Insert a new client");
 			model.addAttribute("buttonTitle", "Save Client");
 			return "client/form";
 		}
-		
-		if(!photo.isEmpty()) {
-			
-			String uniqueFilename = UUID.randomUUID().toString() + "_" + photo.getOriginalFilename();
 
-			Path rootPath = Paths.get("uploads").resolve(uniqueFilename);
-			
-			Path rootAbsolutePath = rootPath.toAbsolutePath();
-			log.info("rootPath: " + rootPath);
-			log.info("rootAbsolutePath: " + rootAbsolutePath);
+		if (!photo.isEmpty()) {
+
+			// Replacing current photo when user uploads a new one
+			if (client.getId() != null && client.getId() > 0 && client.getPhoto() != null
+					&& client.getPhoto().length() > 0) {
+
+				uploadService.delete(client.getPhoto());
+
+			}
+
+			String uniqueFilename = null;
 
 			try {
-//				byte[] bytes = photo.getBytes();
-//				Path fullPath = Paths.get(rootPath + "//" + photo.getOriginalFilename());
-//				//* Writes the new file in the uploadsDirectory
-//				Files.write(fullPath, bytes);
-				
-				Files.copy(photo.getInputStream(), rootAbsolutePath);
-								
-				flash.addFlashAttribute("info", "file '" + photo.getOriginalFilename() + "' uploaded successfully!");
-
-				client.setPhoto(uniqueFilename);
-
-			} catch(IOException e) {
+				uniqueFilename = uploadService.copy(photo);
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
+			flash.addFlashAttribute("info", "file '" + photo.getOriginalFilename() + "' uploaded successfully!");
+
+			client.setPhoto(uniqueFilename);
+
 		}
 
 		String flashMessage = (client.getId() != null) ? "Client Updated" : "Client successfully saved";
@@ -174,7 +132,7 @@ public class ClientController {
 		if (client == null) {
 			flash.addFlashAttribute("danger", "Client id: " + id + " not found");
 			return "redirect:/clients/list";
-		} 
+		}
 
 		fullName = client.getFirstName() + " " + client.getLastName();
 		model.addAttribute("client", client);
@@ -188,6 +146,12 @@ public class ClientController {
 	public String delete(@PathVariable Long id, RedirectAttributes flash) {
 
 		if (id > 0) {
+			Client client = clientService.findOne(id);
+
+			if (uploadService.delete(client.getPhoto())) {
+				flash.addFlashAttribute("info", "Image " + client.getPhoto() + " has been deleted!");
+			}
+
 			clientService.deleteOne(id);
 		}
 

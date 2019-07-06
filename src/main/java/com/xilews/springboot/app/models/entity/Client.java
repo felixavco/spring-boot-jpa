@@ -1,13 +1,18 @@
 package com.xilews.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,9 +29,8 @@ public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "first_name")
-	// @Size(min = 2, max = 20)
 	@NotEmpty
 	private String firstName;
 
@@ -46,15 +50,14 @@ public class Client implements Serializable {
 
 	private String photo;
 
-	// @PrePersist
-	// public void prePersist() {
-	// 	createdAt = new Date();
-	// }
+	@OneToMany(mappedBy="client", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Factura> facturas;
 
-	private static final long serialVersionUID = 1L;
-	
+	public Client() {
+		facturas = new ArrayList<Factura>();
+	}
+
 	// * Getters & Setters
-	
 	public Long getId() {
 		return id;
 	}
@@ -95,16 +98,26 @@ public class Client implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-    public String getPhoto() {
-        return photo;
-    }
+	public String getPhoto() {
+		return photo;
+	}
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
-	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+
+	public List<Factura> getFacturas() {
+		return facturas;
 	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public void addFactura(Factura factura) {
+		facturas.add(factura);
+	}
+
+	private static final long serialVersionUID = 1L;
 
 }
