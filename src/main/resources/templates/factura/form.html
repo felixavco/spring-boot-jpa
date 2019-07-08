@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https//www.thymeleaf.org">
+
+<head th:replace="fragments/header::head"></head>
+
+<body>
+    <header th:replace="fragments/header::navbar"></header>
+    <div class="container mb-5">
+        <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i
+                class="fas fa-users"></i></a>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mx-auto card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h4 class="text-center text-secondary">New Bill</h4>
+                    </div>
+                    <form th:action="@{/factura/form/}" th:object="${factura}" method="POST" novalidate>
+
+                        <div class="form-group">
+                                <input type="text" th:value="${factura.client.firstName} + ' ' + ${factura.client.lastName}" class="form-control" disabled="disabled" />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" th:field="*{descripcion}" class="form-control"
+                                placeholder="Description" />
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="observacion" th:field="*{observacion}" class="form-control" placeholder="Observations"></textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer::footer"></footer>
+    <div th:replace="fragments/footer::scripts"></div>
+</body>
+
+</html>

@@ -24,38 +24,37 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="facturas")
+@Table(name = "facturas")
 public class Factura implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String description;
-	private String observations;
-	
+
+	private String descripcion;
+	private String observacion;
+
 	@Temporal(TemporalType.DATE)
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	@NotNull
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdAt;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
-	
-	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="factura_id")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "factura_id")
 	private List<ItemFactura> items;
-	
+
 	public Factura() {
-		this.items =  new ArrayList<ItemFactura>();
+		this.items = new ArrayList<ItemFactura>();
 	}
-	
-	
-	//*Inserts date
+
+	// *Inserts date
 	@PrePersist
 	public void prePersist() {
-		createdAt =  new Date();
+		createdAt = new Date();
 	}
 
 	public Long getId() {
@@ -66,20 +65,20 @@ public class Factura implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
-	public String getObservations() {
-		return observations;
+	public String getObservacion() {
+		return observacion;
 	}
 
-	public void setObservations(String observations) {
-		this.observations = observations;
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 
 	public Date getCreatedAt() {
@@ -97,12 +96,10 @@ public class Factura implements Serializable {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
 
 	public List<ItemFactura> getItems() {
 		return items;
 	}
-
 
 	public void setItems(List<ItemFactura> items) {
 		this.items = items;
@@ -111,19 +108,18 @@ public class Factura implements Serializable {
 	public void addItemFactura(ItemFactura item) {
 		items.add(item);
 	}
-	
+
 	public Double getTotal() {
 		Double total = 0.00;
-		
+
 		int size = items.size();
-		
-		for(int i = 0; i < size; i++) {
+
+		for (int i = 0; i < size; i++) {
 			total += items.get(i).calcularImporte();
 		}
-		
-		return total;
-	}
 
+		return  Math.floor(total * 100) / 100;
+	}
 
 	private static final long serialVersionUID = 1L;
 

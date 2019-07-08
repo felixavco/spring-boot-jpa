@@ -7,13 +7,17 @@
     <header th:replace="fragments/header::navbar"></header>
     <div class="container mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i class="fas fa-users"></i></a>
-            <a th:href="@{/client/edit/} + ${client.id}" class="btn btn-success mb-2">Edit <span th:text="${client.firstName}"></span>&nbsp;<i class="fas fa-user-edit"></i></a>
-            <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger mb-2" onclick="return confirm('Are you sure?')">Delete <span th:text="${client.firstName}"></span>&nbsp;<i class="fas fa-user-minus"></i></a>
+            <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i
+                    class="fas fa-users"></i></a>
+            <a th:href="@{/client/edit/} + ${client.id}" class="btn btn-success mb-2">Edit <span
+                    th:text="${client.firstName}"></span>&nbsp;<i class="fas fa-user-edit"></i></a>
+            <a th:href="@{/client/delete/} + ${client.id}" class="btn btn-danger mb-2"
+                onclick="return confirm('Are you sure?')">Delete <span th:text="${client.firstName}"></span>&nbsp;<i
+                    class="fas fa-user-minus"></i></a>
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-8 mx-auto card">
+            <div class="col-12 col-md-10 mx-auto card">
                 <div class="card-body">
                     <div class="card-title">
                         <h2 class="text-center text-secondary display-1" th:text="${title}"></h2>
@@ -44,8 +48,34 @@
                         </div>
                     </div>
 
-        
+                    <div class="row">
+                        <div class="col-12 my-4">
+                            <table th:if="${client.facturas.size() > 0}" class="table table-bordered table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Observation</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="factura : ${client.facturas}">
+                                        <th th:text="${factura.id}" scope="row"></th>
+                                        <td th:text="${factura.descripcion}"></td>
+                                        <td th:text="${factura.observacion}"></td>
+                                        <td th:text="${factura.createdAt}"></td>
+                                        <td th:text="${'$'+factura.total}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                            <div th:if="!${client.facturas.size() > 0}" class="alert alert-info">
+                                <p class="m-0 text-center"><span th:text="${client.firstName}"></span>&nbsp;<span th:text="${client.lastName}"></span> doesn't have pending bills</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
