@@ -6,7 +6,12 @@
 <body>
     <header th:replace="fragments/header::navbar"></header>
     <div class="container mb-5">
-        <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i class="fas fa-users"></i></a>
+        <a th:href="@{/client/list}" class="btn btn-primary mb-2">
+            Back to Clients list&nbsp;<i class="fas fa-users"></i>
+        </a>
+        <a th:if="${client.id != null }" th:href="@{/client/profile/} + ${client.id}" class="btn btn-primary ml-3 mb-2">
+            <span th:text="${client.firstName} + ' ' + ${client.lastName}"></span> profile <i class="far fa-id-card"></i>
+        </a>
 
         <div class="row">
             <div class="col-12 col-md-6 mx-auto card">

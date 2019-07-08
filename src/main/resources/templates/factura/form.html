@@ -6,8 +6,12 @@
 <body>
     <header th:replace="fragments/header::navbar"></header>
     <div class="container mb-5">
-        <a th:href="@{/client/list}" class="btn btn-primary mb-2">Back to Clients list&nbsp;<i
-                class="fas fa-users"></i></a>
+        <a th:href="@{/client/list}" class="btn btn-primary mb-2">
+            Back to Clients list&nbsp;<i class="fas fa-users"></i>
+        </a>
+        <a th:href="@{/client/profile/} + ${factura.client.id}" class="btn btn-primary ml-3 mb-2">
+            <span th:text="${factura.client.firstName} + ' ' + ${factura.client.lastName}"></span> profile <i class="far fa-id-card"></i>
+        </a>
 
         <div class="row">
             <div class="col-12 col-md-6 mx-auto card">
@@ -18,7 +22,8 @@
                     <form th:action="@{/factura/form/}" th:object="${factura}" method="POST" novalidate>
 
                         <div class="form-group">
-                                <input type="text" th:value="${factura.client.firstName} + ' ' + ${factura.client.lastName}" class="form-control" disabled="disabled" />
+                            <input type="text" th:value="${factura.client.firstName} + ' ' + ${factura.client.lastName}"
+                                class="form-control" disabled="disabled" />
                         </div>
 
                         <div class="form-group">
@@ -27,7 +32,8 @@
                         </div>
 
                         <div class="form-group">
-                            <textarea id="observacion" th:field="*{observacion}" class="form-control" placeholder="Observations"></textarea>
+                            <textarea id="observacion" th:field="*{observacion}" class="form-control"
+                                placeholder="Observations"></textarea>
                         </div>
 
                         <div class="d-flex justify-content-center">
