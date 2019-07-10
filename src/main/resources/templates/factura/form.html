@@ -10,7 +10,8 @@
             Back to Clients list&nbsp;<i class="fas fa-users"></i>
         </a>
         <a th:href="@{/client/profile/} + ${factura.client.id}" class="btn btn-primary ml-3 mb-2">
-            <span th:text="${factura.client.firstName} + ' ' + ${factura.client.lastName}"></span> profile <i class="far fa-id-card"></i>
+            <span th:text="${factura.client.firstName} + ' ' + ${factura.client.lastName}"></span> profile <i
+                class="far fa-id-card"></i>
         </a>
 
         <div class="row">
@@ -34,6 +35,16 @@
                         <div class="form-group">
                             <textarea id="observacion" th:field="*{observacion}" class="form-control"
                                 placeholder="Observations"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="observacion" th:field="*{observacion}" class="form-control"
+                                placeholder="Observations"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" th:field="*{descripcion}" class="form-control"
+                                placeholder="Description" />
                         </div>
 
                         <div class="d-flex justify-content-center">
