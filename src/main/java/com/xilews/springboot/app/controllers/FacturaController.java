@@ -1,7 +1,11 @@
 package com.xilews.springboot.app.controllers;
 
+import java.util.List;
+
 import com.xilews.springboot.app.models.entity.Client;
 import com.xilews.springboot.app.models.entity.Factura;
+import com.xilews.springboot.app.models.entity.Producto;
+
 
 import com.xilews.springboot.app.models.service.IClientService;
 
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 @RequestMapping({"/factura", "/facturas"})
@@ -45,4 +51,11 @@ public class FacturaController {
 
         return "factura/form";
     }
+
+    @GetMapping(value="/cargar-productos/{term}", produces = {"application/json"})
+    public @ResponseBody List<Producto> cargarProductos(@PathVariable String term) {
+
+        return clientService.findByNombre("%"+term+"%");
+    }
+    
 }

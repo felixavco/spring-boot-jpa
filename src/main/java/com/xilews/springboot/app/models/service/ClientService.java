@@ -3,7 +3,9 @@ package com.xilews.springboot.app.models.service;
 import java.util.List;
 
 import com.xilews.springboot.app.models.dao.IClientDao;
+import com.xilews.springboot.app.models.dao.IProductoDao;
 import com.xilews.springboot.app.models.entity.Client;
+import com.xilews.springboot.app.models.entity.Producto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,9 @@ public class ClientService implements IClientService {
 
     @Autowired
     private IClientDao clientDao;
+
+    @Autowired
+    private IProductoDao productoDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -46,5 +51,12 @@ public class ClientService implements IClientService {
     public void deleteOne(Long id) {
         clientDao.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+	public List<Producto> findByNombre(String term) {
+
+		return productoDao.findByNombreLikeIgnoreCase(term);
+	}
 
 }
